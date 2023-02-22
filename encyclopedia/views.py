@@ -17,6 +17,10 @@ def index(request):
 
 
 def entry(request, title):
-    entries = util.list_entries()
-    if title in entries:
-        return  
+    html_file = converter(title)
+    if html_file:
+        return render(request, f"encyclopedia/entry.html")
+    elif html_file == None:
+        return render(request, "encyclopedia/error.html")
+    else:
+        return render(request, "encyclopedia/error.html" )
