@@ -35,6 +35,9 @@ def entry(request, title):
 
 
 def search(request):
+    if request.method == "POST":
+        answer = request.form["q"]
+        return render(request, f"{answer}.html")
     return render(request, "entry.html", {
         "form": NewSearchForm()
     })
