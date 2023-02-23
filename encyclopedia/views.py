@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from markdown2 import Markdown
 from . import util
+from django import forms
+
+class NewSearchForm(forms.Form):
+    task = forms.CharField(label="search")
 
 def converter(name):
     file = util.get_entry(name)
@@ -11,6 +15,7 @@ def converter(name):
 
 
 def index(request):
+
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
     })
@@ -27,3 +32,10 @@ def entry(request, title):
         return render(request, "encyclopedia/error.html")
     else:
         return render(request, "encyclopedia/error.html" )
+
+
+def search(request):
+    return render(request, "entry.html", {
+        "form": NewSearchForm()
+    })
+
