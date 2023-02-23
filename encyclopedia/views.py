@@ -36,8 +36,13 @@ def entry(request, title):
 
 def search(request):
     if request.method == "POST":
-        answer = request.form["q"]
-        return render(request, f"{answer}.html")
+        answer = request.POST["q"]
+        html_file = converter(answer)
+        if html_file:
+            return render(request, "encyclopedia/entry.html", {
+                "file": html_file,
+                "title": answer
+            })
     return render(request, "entry.html", {
         "form": NewSearchForm()
     })
