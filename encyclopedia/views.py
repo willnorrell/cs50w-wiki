@@ -6,12 +6,12 @@ from django import forms
 
 def converter(name):
     file = util.get_entry(name)
+    markdowner = Markdown()
+    html_file = markdowner.convert(file)
     if file != None:
-        markdowner = Markdown()
-        html_file = markdowner.convert(file)
         return html_file
     else:
-        return False
+        return None
 
 
 def index(request):
@@ -37,16 +37,20 @@ def entry(request, title):
 def search(request):
     entries = util.list_entries()
     matches = []
+
     if request.method == "POST":
         answer = request.POST["q"]
         html_file = converter(answer)
-        if html_file:
+        for i in entries:
+            if answer in entries:
+                matches.append(i)
+        if html_file != None:
             return render(request, "encyclopedia/entry.html", {
                 "file": html_file,
                 "title": answer
             })
-        elif answer in entries:
-            pass
+        elif len(matches) != 0:
+            render(request, "search.html")
         else:
             render(request, "encyclopedia/search.html")
 
