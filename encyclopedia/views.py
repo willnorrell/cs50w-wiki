@@ -3,15 +3,15 @@ from markdown2 import Markdown
 from . import util
 from django import forms
 
-class NewSearchForm(forms.Form):
-    task = forms.CharField(label="search")
 
 def converter(name):
     file = util.get_entry(name)
-    markdowner = Markdown()
-    html_file = markdowner.convert(file)
-    return html_file
-
+    if file != None:
+        markdowner = Markdown()
+        html_file = markdowner.convert(file)
+        return html_file
+    else:
+        return False
 
 
 def index(request):
@@ -35,6 +35,8 @@ def entry(request, title):
 
 
 def search(request):
+    entries = util.list_entries()
+    matches = []
     if request.method == "POST":
         answer = request.POST["q"]
         html_file = converter(answer)
@@ -43,7 +45,15 @@ def search(request):
                 "file": html_file,
                 "title": answer
             })
-    return render(request, "entry.html", {
-        "form": NewSearchForm()
-    })
+        elif answer in entries:
+            pass
+        else:
+            render(request, "encyclopedia/search.html")
 
+
+'''
+    for string in string_list:
+        if target_string in string:
+            matches.append(string)
+    return matches
+'''
