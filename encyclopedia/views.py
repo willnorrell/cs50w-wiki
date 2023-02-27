@@ -57,10 +57,5 @@ def search(request):
                          })
 
 
-
-'''
-    for string in string_list:
-        if target_string in string:
-            matches.append(string)
-    return matches
-'''
+def new(request):
+    return render(request, "encyclopedia/new.html")
