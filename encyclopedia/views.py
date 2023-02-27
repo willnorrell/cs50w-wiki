@@ -7,9 +7,8 @@ from django import forms
 def converter(name):
     file = util.get_entry(name)
     markdowner = Markdown()
-    html_file = markdowner.convert(file)
     if file != None:
-        return html_file
+        return markdowner.convert(file)
     else:
         return None
 
@@ -28,10 +27,10 @@ def entry(request, title):
             "file": html_file,
             "title": title
         })
-    elif html_file == None:
-        return render(request, "encyclopedia/error.html")
     else:
-        return render(request, "encyclopedia/error.html" )
+        return render(request, "encyclopedia/error.html", {
+            "title": title
+        } )
 
 
 def search(request):
