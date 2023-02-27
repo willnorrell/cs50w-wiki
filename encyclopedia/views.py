@@ -40,18 +40,22 @@ def search(request):
     if request.method == "POST":
         answer = request.POST["q"]
         html_file = converter(answer)
-        for i in entries:
-            if answer in entries:
-                matches.append(i)
+
         if html_file != None:
             return render(request, "encyclopedia/entry.html", {
                 "file": html_file,
                 "title": answer
             })
-        elif len(matches) != 0:
-            render(request, "search.html")
+
         else:
-            render(request, "encyclopedia/search.html")
+            for i in entries:
+                if answer.lower() in i.lower():
+                    matches.append(i)
+
+            return render(request, "encyclopedia/search.html", {
+                            "entries": matches   
+                         })
+
 
 
 '''
