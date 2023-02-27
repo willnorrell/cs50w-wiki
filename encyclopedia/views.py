@@ -58,4 +58,9 @@ def search(request):
 
 
 def new(request):
-    return render(request, "encyclopedia/new.html")
+    if request.method == "POST":
+        title = request.POST["title"]
+        content = request.POST['content']
+        util.save_entry(title, content)
+    else:
+        return render(request, "encyclopedia/new.html")
