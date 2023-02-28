@@ -6,5 +6,11 @@
 
 {% block body %}
     <h1>Error</h1>
+    {% if title %}
     <p>There is no current page for {{ title }} at the moment.</p>
+    {% endif %}
+    {% if already_exists %}
+    <p>There is already a page for {{ already_exists }}.</p>
+    {% endif %}
+
 {% endblock %}

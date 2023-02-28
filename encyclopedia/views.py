@@ -29,7 +29,8 @@ def entry(request, title):
         })
     else:
         return render(request, "encyclopedia/error.html", {
-            "title": title
+            "title": title,
+            "already_exists": False
         } )
 
 
@@ -59,8 +60,23 @@ def search(request):
 
 def new(request):
     if request.method == "POST":
+        entries = util.list_entries()
+        lower_list = []
         title = request.POST["title"]
-        content = request.POST['content']
-        util.save_entry(title, content)
+        for string in entries:
+            lower_list.append(string.lower())
+        if title.lower() in lower_list:
+            return render(request, "encyclopedia/error.html", {
+                    "title": False,
+                    "already_exists": title
+                    })
+        else:
+            content = request.POST['content']
+            util.save_entry(title, content)
+            html_file = converter(title)
+            return render(request, "encyclopedia/entry.html", {
+                "file": html_file,
+                "title": title
+            })
     else:
         return render(request, "encyclopedia/new.html")
