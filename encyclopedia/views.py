@@ -80,3 +80,7 @@ def new(request):
             })
     else:
         return render(request, "encyclopedia/new.html")
+    
+
+def edit(request):
+    return render(request, "edit.html")
