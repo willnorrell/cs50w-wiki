@@ -102,3 +102,7 @@ def save(request):
             "file": html_file,
             "title": title
         })
+
+
+def random(request):
+    pass
