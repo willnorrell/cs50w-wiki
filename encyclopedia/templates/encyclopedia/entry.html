@@ -8,6 +8,11 @@
 
     {{ file |safe }}
 
-    <a href="{% url 'edit' %}">Edit Page</a>
+    <form method="POST" action="{% url 'edit' %}">
+        {% csrf_token %}
+        <input type="hidden" name="title" value="{{ title }}">
+        <input type="submit" value="Edit">
+    </form>
+
 
 {% endblock %}
