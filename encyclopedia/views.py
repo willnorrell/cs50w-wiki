@@ -2,6 +2,7 @@ from django.shortcuts import render
 from markdown2 import Markdown
 from . import util
 from django import forms
+from random import choice
 
 
 def converter(name):
@@ -105,4 +106,10 @@ def save(request):
 
 
 def random(request):
-    pass
+    entries = util.list_entries()
+    random_entry = choice(entries)
+    html_file = converter(random_entry)
+    return render(request, f"encyclopedia/entry.html", {
+            "file": html_file,
+            "title": random_entry
+        }) 
